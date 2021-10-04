@@ -10,7 +10,7 @@ import "tfplan-functions" as plan
 import "strings"
 import "types"
 
-prefix = "us-"
+param prefix
 
 # Get all Pubsub Topics
 allTopics = plan.find_resources("google_pubsub_topic")

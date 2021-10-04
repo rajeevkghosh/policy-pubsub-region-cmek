@@ -1,11 +1,15 @@
-"modules" "tfplan-functions" {
-  "path" = "../../tfplan-functions.sentinel"
+  module "tfplan-functions" {
+  source = "../../tfplan-functions.sentinel"
 }
 
-"mock" = {
-  "tfplan/v2" = "mock-tfplan-null.sentinel"
+mock "tfplan/v2" {
+  module {
+    source = "mock-tfplan-null.sentinel"
+  }
 }
 
-"test" = {
-  "main" = false
+test {
+  rules = {
+    main = false
+  }
 }

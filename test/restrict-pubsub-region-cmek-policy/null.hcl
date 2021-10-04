@@ -1,4 +1,4 @@
-  module "tfplan-functions" {
+module "tfplan-functions" {
   source = "../../tfplan-functions.sentinel"
 }
 
@@ -7,6 +7,10 @@ mock "tfplan/v2" {
     source = "mock-tfplan-null.sentinel"
   }
 }
+param "prefix" {
+    value = "us-"
+}
+
 
 test {
   rules = {

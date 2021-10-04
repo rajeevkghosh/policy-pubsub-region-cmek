@@ -1,0 +1,65 @@
+#This policy uses the Sentinel tfplan/v2 import to require that
+# all GCE compute instances have all mandatory labels
+
+# Note that the comparison is case-sensitive but also that GCE labels are only
+# allowed to contain lowercase letters, numbers, hypens, and underscores.
+
+# Import tfplan-functions.sentinel
+# with alias "plan"
+import "tfplan-functions" as plan
+import "strings"
+import "types"
+
+prefix = "us-"
+
+# Get all Pubsub Topics
+allTopics = plan.find_resources("google_pubsub_topic")
+
+
+# print(allTopics)
+
+voilations = {}
+for allTopics as address, rc {
+        message_storage_policy = rc["change"]["after"]["message_storage_policy"]
+    kms_key = rc["change"]["after"]["kms_key_name"]
+
+    is_kms_undefined = rule { types.type_of(kms_key) is "undefined" }
+
+    if is_kms_undefined is true {
+
+    } else {
+
+        if rc["change"]["after"]["kms_key_name"] is null {
+
+        voilations[address] = rc
+        }
+    }
+
+        is_undefined = rule { types.type_of(message_storage_policy) is "undefined" }
+        #print(is_undefined)
+
+        if is_undefined is true {
+                #print("hidddd")
+                voilations[address] = rc
+
+        } else {
+
+                allowed_persistence_regions = rc["change"]["after"]["message_storage_policy"][0]["allowed_persistence_regions"]
+
+                for allowed_persistence_regions as region {
+                        if not strings.has_prefix(region, prefix) {
+                                voilations[address] = rc
+                        }
+                }
+        }
+
+}
+
+# print(voilations)
+
+
+# Main rule
+
+pub_sub_cmek = rule { length(voilations) is 0 }
+
+main = rule {pub_sub_cmek is true}

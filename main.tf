@@ -10,7 +10,7 @@ resource "google_kms_key_ring" "keyring-pubsub" {
 
 resource "google_kms_crypto_key" "example-key-pubsub2" {
   name            = "crypto-key-example-pubsub2"
-  key_ring        = google_kms_key_ring.keyring-pubsub2.id
+  key_ring        = google_kms_key_ring.keyring-pubsub.id
   rotation_period = "100000s"
 
   lifecycle {

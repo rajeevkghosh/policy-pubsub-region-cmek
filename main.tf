@@ -3,14 +3,14 @@ provider "google" {
   project = "tokyo-nomad-323506"
 }
 
-resource "google_kms_key_ring" "keyring-pubsub" {
-  name     = "keyring-example-pubsub"
+resource "google_kms_key_ring" "keyring-pubsub2" {
+  name     = "keyring-example-pubsub2"
   location = "us-central1"
 }
 
 resource "google_kms_crypto_key" "example-key-pubsub2" {
   name            = "crypto-key-example-pubsub2"
-  key_ring        = google_kms_key_ring.keyring-pubsub.id
+  key_ring        = google_kms_key_ring.keyring-pubsub2.id
   rotation_period = "100000s"
 
   lifecycle {

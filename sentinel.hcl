@@ -14,9 +14,9 @@ policy "restrict-pubsub-region-cmek-policy" {
     source = "./restrict-pubsub-region-cmek-policy.sentinel"
     enforcement_level = "soft-mandatory"
 }
-/*
+
 param "prefix" {
 value = "us-"
 }
-*/
+
 

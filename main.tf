@@ -1,5 +1,6 @@
 provider "google" {
   access_token = var.access_token
+  project = "tokyo-nomad-323506"
 }
 
 

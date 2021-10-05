@@ -8,9 +8,9 @@ resource "google_kms_key_ring" "keyring-pubsub" {
   location = "us-central1"
 }
 
-resource "google_kms_crypto_key" "example-key-pubsub" {
-  name            = "crypto-key-example-pubsub"
-  key_ring        = google_kms_key_ring.keyring-pubsub.id
+resource "google_kms_crypto_key" "example-key-pubsub2" {
+  name            = "crypto-key-example-pubsub2"
+  key_ring        = google_kms_key_ring.keyring-pubsub2.id
   rotation_period = "100000s"
 
   lifecycle {
@@ -20,7 +20,7 @@ resource "google_kms_crypto_key" "example-key-pubsub" {
 
 # Grant access to storage sa to encrypt and decrypt using the CMEK key
 resource "google_kms_crypto_key_iam_member" "encryption" {
-crypto_key_id = google_kms_crypto_key.example-key-pubsub.id
+crypto_key_id = google_kms_crypto_key.example-key-pubsub2.id
 role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
 member        = "serviceAccount:service-420069091023@gcp-sa-pubsub.iam.gserviceaccount.com"
 }
@@ -28,7 +28,7 @@ member        = "serviceAccount:service-420069091023@gcp-sa-pubsub.iam.gservicea
 resource "google_pubsub_topic" "example" {
   name = "example-topic"
 
-  kms_key_name = google_kms_crypto_key.example-key-pubsub.id
+  kms_key_name = google_kms_crypto_key.example-key-pubsub2.id
 
   message_storage_policy {
     allowed_persistence_regions = [
